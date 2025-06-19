@@ -50,8 +50,18 @@ async fn main() -> anyhow::Result<()> {
     let p1cpy = pods.get("blog").await?;
     if let Some(spec) = &p1cpy.spec {
         info!("Got blog pod with containers: {:?}", spec.containers);
+        info!(
+            "Got blog pod with containers: {}",
+            serde_json::to_string(&spec.containers)?
+        );
+        println!("{}", serde_json::to_string(&spec.containers)?);
+        info!(
+            "Got blog pod with containers: {}",
+            serde_json::to_string_pretty(&spec.containers)?
+        );
         assert_eq!(spec.containers[0].name, "blog");
     }
+    info!("Got blog pod resource_version: {:?}", p1cpy.resource_version());
 
     // Replace its spec
     info!("Patch Pod blog");

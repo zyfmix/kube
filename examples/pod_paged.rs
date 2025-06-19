@@ -15,7 +15,8 @@ const PAGE_SIZE: u32 = 5;
 async fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt::init();
     let client = Client::try_default().await?;
-    let api = Api::<Pod>::default_namespaced(client);
+    // let api = Api::<Pod>::default_namespaced(client);
+    let api = Api::<Pod>::namespaced(client, "kube-system");
 
     let mut continue_token: Option<String> = None;
     for page in 1.. {

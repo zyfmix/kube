@@ -30,6 +30,16 @@ async fn main() -> anyhow::Result<()> {
     }))?;
 
     let pods: Api<Pod> = Api::default_namespaced(client);
+
+    // Delete it
+    // pods.delete("example", &DeleteParams::default())
+    //     .await?
+    //     .map_left(|pdel| {
+    //         assert_eq!(pdel.name_any(), "example");
+    //     });
+
+    // return Ok(());
+
     // Stop on error including a pod already exists or is still being deleted.
     pods.create(&PostParams::default(), &p).await?;
 

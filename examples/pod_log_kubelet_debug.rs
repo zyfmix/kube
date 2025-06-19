@@ -32,7 +32,7 @@ async fn main() -> anyhow::Result<()> {
             "containers": [{
               "name": "busybox",
               "image": "busybox:1.34.1",
-              "command": ["sh", "-c", "for i in $(seq 1 5); do echo kube $i; sleep 0.1; done"],
+              "command": ["sh", "-c", "for i in $(seq 1 10); do echo kube $i; sleep 1; done"],
             }],
         }
     }))?;
@@ -44,7 +44,7 @@ async fn main() -> anyhow::Result<()> {
     }
 
     // wait for container to finish
-    tokio::time::sleep(std::time::Duration::from_secs(2)).await;
+    tokio::time::sleep(std::time::Duration::from_secs(5)).await;
 
     // Grab logs directly via the kubelet_debug interface
     kubelet_log().await?;
@@ -62,7 +62,7 @@ async fn kubelet_log() -> anyhow::Result<()> {
     // and assumes 10250 is a reachable kubelet port (k3d default)
     let mut config = Config::infer().await?;
     config.accept_invalid_certs = true;
-    config.cluster_url = "https://localhost:10250".to_string().parse::<Uri>().unwrap();
+    config.cluster_url = "https://10.100.0.105:10250".to_string().parse::<Uri>().unwrap();
     let client: Client = config.try_into()?;
 
     // Get logs directly from the node, bypassing the kube-apiserver

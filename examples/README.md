@@ -54,7 +54,7 @@ cargo run --example event_watcher -- --for=Pod/prometheus-promstack-kube-prometh
 Admission controllers are a bit of a special beast. They don't actually need `kube_client` (unless you need to verify something with the api-server) or `kube_runtime` (unless you also build a complementing reconciler) because, by themselves, they simply get changes sent to them over `https`. You will need a webserver, certificates, and either your controller deployed behind a `Service`, or as we do here: running locally with a private ip that your `k3d` cluster can reach.
 
 ```sh
-export ADMISSION_PRIVATE_IP=192.168.1.163
+export ADMISSION_PRIVATE_IP=192.168.108.152
 ./admission_setup.sh
 cargo run --example admission_controller &
 kubectl apply -f admission_ok.yaml # should succeed and add a label

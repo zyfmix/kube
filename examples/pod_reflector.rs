@@ -20,7 +20,9 @@ async fn main() -> anyhow::Result<()> {
     tokio::spawn(async move {
         // Show state every 5 seconds of watching
         loop {
+            info!("loop waiting for pods ...");
             reader.wait_until_ready().await.unwrap();
+            info!("sleeping ...");
             tokio::time::sleep(std::time::Duration::from_secs(5)).await;
             info!("Current pod count: {}", reader.state().len());
             // full information with debug logs
@@ -30,6 +32,8 @@ async fn main() -> anyhow::Result<()> {
             }
         }
     });
+
+    info!("Watching for pods....................................................................................................................................");
 
     let stream = watcher(api, watcher::Config::default().any_semantic())
         .default_backoff()
@@ -45,7 +49,10 @@ async fn main() -> anyhow::Result<()> {
     let mut stream = pin!(stream);
 
     while let Some(pod) = stream.try_next().await? {
-        info!("saw {}", pod.name_any());
+        info!(
+            "saw {}.................................................................",
+            pod.name_any()
+        );
     }
     Ok(())
 }

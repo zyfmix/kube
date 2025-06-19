@@ -26,7 +26,7 @@ async fn main() -> anyhow::Result<()> {
         .try_for_each(|p| async move {
             info!("saw {}", p.name_any());
             if let Some(unready_reason) = pod_unready(&p) {
-                warn!("{}", unready_reason);
+                warn!("unready reason: {}", unready_reason);
             }
             Ok(())
         })

@@ -57,10 +57,12 @@ async fn main() -> anyhow::Result<()> {
 
     let (parts, body) = sender.send_request(http_req).await?.into_parts();
     assert!(parts.status == 200);
+    info!("Parts: {:?}", parts);
 
     let body_bytes = body.collect().await?.to_bytes();
     let body_str = std::str::from_utf8(&body_bytes)?;
     assert!(body_str.contains("Welcome to nginx!"));
+    info!("Body: {}", body_str);
 
     // Delete it
     info!("deleting");
