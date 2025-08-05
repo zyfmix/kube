@@ -79,9 +79,15 @@ async fn main() -> anyhow::Result<()> {
         let ca2: CaConfigMapManual = client.get(kube_root, &ns).await?;
         let ca3: CaConfigMap = client.get(kube_root, &ns).await?;
         info!("Found {kube_root} in {ns:?} with all 3 methods");
+
         debug!("ca1: {ca1:?}");
+        println!("{}", serde_json::to_string(&ca1)?);
+
         debug!("ca2: {ca2:?}");
+        println!("{}", serde_json::to_string(&ca2)?);
+
         debug!("ca3: {ca3:?}");
+        println!("{}", serde_json::to_string(&ca3)?);
     }
 
     Ok(())

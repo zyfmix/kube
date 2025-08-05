@@ -88,10 +88,10 @@ async fn main() -> anyhow::Result<()> {
     apply_crd(client.clone(), merge_crds(all_crds, "v2")?).await?;
 
     // nothing changed with existing objects without conversion
-    //let oldvarv1_upg = v1api.get("old").await?;
-    //info!("old instance unchanged on v1: {:?}", oldvarv1_upg.spec);
-    //let oldvarv2_upg = v2api.get("old").await?;
-    //info!("old instance unchanged on v2: {:?}", oldvarv2_upg.spec);
+    let oldvarv1_upg = v1api.get("old").await?;
+    info!("old instance unchanged on v1: {:?}", oldvarv1_upg.spec);
+    let oldvarv2_upg = v2api.get("old").await?;
+    info!("old instance unchanged on v2: {:?}", oldvarv2_upg.spec);
 
     // re-apply new now that v2 is stored gives us the extra properties
     let newvarv2_2 = v2api.patch("new", &ssapply, &Patch::Apply(&v2m)).await?;

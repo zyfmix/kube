@@ -40,6 +40,10 @@ async fn reconcile(generator: Arc<ConfigMapGenerator>, ctx: Arc<Data>) -> Result
 
     let mut contents = BTreeMap::new();
     contents.insert("content".to_string(), generator.spec.content.clone());
+    println!(
+        "[---------------------------------------------------------]contents: {:?}",
+        contents
+    );
     let oref = generator.controller_owner_ref(&()).unwrap();
     let cm = ConfigMap {
         metadata: ObjectMeta {
@@ -73,7 +77,11 @@ async fn reconcile(generator: Arc<ConfigMapGenerator>, ctx: Arc<Data>) -> Result
 }
 
 /// The controller triggers this on reconcile errors
-fn error_policy(_object: Arc<ConfigMapGenerator>, _error: &Error, _ctx: Arc<Data>) -> Action {
+fn error_policy(_object: Arc<ConfigMapGenerator>, e: &Error, _ctx: Arc<Data>) -> Action {
+    println!(
+        "[---------------------------------------------------------][error_policy] error: {:?}",
+        e,
+    );
     Action::requeue(Duration::from_secs(1))
 }
 

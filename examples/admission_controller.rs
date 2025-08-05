@@ -83,7 +83,7 @@ fn mutate(res: AdmissionResponse, obj: &DynamicObject) -> Result<AdmissionRespon
         // Add our label
         patches.push(json_patch::PatchOperation::Add(json_patch::AddOperation {
             path: PointerBuf::from_tokens(["metadata", "labels", "admission"]),
-            value: serde_json::Value::String("modified-by-admission-controller".into()),
+            value: serde_json::Value::String("modified-by-admission-controller-v2".into()),
         }));
         Ok(res.with_patch(json_patch::Patch(patches))?)
     } else {

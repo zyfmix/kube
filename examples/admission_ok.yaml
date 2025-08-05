@@ -4,4 +4,5 @@ metadata:
   name: ok
 spec:
   name: ok
-  info: this is accepted, and a label is added
+  info: this is accepted, and a label is added - test2
+  replicas: 33
